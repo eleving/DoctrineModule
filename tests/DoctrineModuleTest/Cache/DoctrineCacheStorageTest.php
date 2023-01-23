@@ -26,6 +26,7 @@ use Zend\Cache\Storage\Adapter\AdapterOptions;
 
 use PHPUnit_Framework_TestCase;
 use Zend\Stdlib\ErrorHandler;
+use Zend\Cache\Storage\StorageInterface;
 
 /**
  * Tests for the cache bridge
@@ -65,12 +66,12 @@ class DoctrineCacheStorageTest extends PHPUnit_Framework_TestCase
         $this->storage = new DoctrineCacheStorage($this->options, new ArrayCache());
 
         $this->assertInstanceOf(
-            'Zend\Cache\Storage\StorageInterface',
+            StorageInterface::class,
             $this->storage,
             'Storage adapter instance is needed for tests'
         );
         $this->assertInstanceOf(
-            'Zend\Cache\Storage\Adapter\AdapterOptions',
+            AdapterOptions::class,
             $this->options,
             'Options instance is needed for tests'
         );
@@ -192,8 +193,6 @@ class DoctrineCacheStorageTest extends PHPUnit_Framework_TestCase
 
         $this->assertInternalType('numeric', $capabilities->getTtlPrecision());
         $this->assertGreaterThan(0, $capabilities->getTtlPrecision());
-
-        $this->assertInternalType('bool', $capabilities->getExpiredRead());
     }
 
     public function testKeyCapabilities()

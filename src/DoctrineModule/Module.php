@@ -19,7 +19,6 @@
 
 namespace DoctrineModule;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Zend\ModuleManager\Feature\InitProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
@@ -51,11 +50,6 @@ class Module implements ConfigProviderInterface, InitProviderInterface, Bootstra
      */
     public function init(ModuleManagerInterface $moduleManager)
     {
-        AnnotationRegistry::registerLoader(
-            function ($className) {
-                return class_exists($className);
-            }
-        );
     }
 
     /**

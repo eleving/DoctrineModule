@@ -19,9 +19,9 @@
 
 namespace DoctrineModule\Options;
 
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Zend\Authentication\Adapter\Exception;
 use Zend\Authentication\Storage\Session as SessionStorage;
 use Zend\Authentication\Storage\StorageInterface;
@@ -112,7 +112,7 @@ class Authentication extends AbstractOptions
      * If an objectManager is not supplied, this metadata will be used
      * by DoctrineModule/Authentication/Storage/ObjectRepository
      *
-     * @var \Doctrine\Common\Persistence\Mapping\ClassMetadata
+     * @var \Doctrine\Persistence\Mapping\ClassMetadata
      */
     protected $classMetadata;
 
@@ -268,7 +268,7 @@ class Authentication extends AbstractOptions
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\Mapping\ClassMetadata
+     * @return \Doctrine\Persistence\Mapping\ClassMetadata
      */
     public function getClassMetadata()
     {
@@ -281,7 +281,7 @@ class Authentication extends AbstractOptions
 
     /**
      *
-     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $classMetadata
+     * @param \Doctrine\Persistence\Mapping\ClassMetadata $classMetadata
      */
     public function setClassMetadata(ClassMetadata $classMetadata)
     {

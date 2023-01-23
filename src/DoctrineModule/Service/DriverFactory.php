@@ -22,10 +22,10 @@ namespace DoctrineModule\Service;
 use Interop\Container\ContainerInterface;
 use InvalidArgumentException;
 use Doctrine\Common\Annotations;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
-use Doctrine\Common\Persistence\Mapping\Driver\FileDriver;
-use Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
+use Doctrine\Persistence\Mapping\Driver\FileDriver;
+use Doctrine\Persistence\Mapping\Driver\DefaultFileLocator;
 use DoctrineModule\Options\Driver as DriverOptions;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -88,8 +88,8 @@ class DriverFactory extends AbstractFactory
         $paths = $options->getPaths();
 
         // Special options for AnnotationDrivers.
-        if ('Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver' === $class
-            || is_subclass_of($class, 'Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver')
+        if ('Doctrine\Persistence\Mapping\Driver\AnnotationDriver' === $class
+            || is_subclass_of($class, 'Doctrine\Persistence\Mapping\Driver\AnnotationDriver')
         ) {
             $reader = new Annotations\AnnotationReader;
             $reader = new Annotations\CachedReader(
@@ -105,10 +105,10 @@ class DriverFactory extends AbstractFactory
 
         if ($options->getExtension() && $driver instanceof FileDriver) {
             /* @var $driver FileDriver */
-            /* @var $locator \Doctrine\Common\Persistence\Mapping\Driver\FileLocator */
+            /* @var $locator \Doctrine\Persistence\Mapping\Driver\FileLocator */
             $locator = $driver->getLocator();
 
-            if (get_class($locator) === 'Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator') {
+            if (get_class($locator) === 'Doctrine\Persistence\Mapping\Driver\DefaultFileLocator') {
                 $driver->setLocator(new DefaultFileLocator($locator->getPaths(), $options->getExtension()));
             } else {
                 throw new InvalidArgumentException(
@@ -124,7 +124,7 @@ class DriverFactory extends AbstractFactory
 
         // Extra post-create options for DriverChain.
         if ($driver instanceof MappingDriverChain && $options->getDrivers()) {
-            /* @var $driver \Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain */
+            /* @var $driver \Doctrine\Persistence\Mapping\Driver\MappingDriverChain */
             $drivers = $options->getDrivers();
 
             if (!is_array($drivers)) {

@@ -35,7 +35,7 @@ use PHPUnit_Framework_TestCase;
 class ProxyTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Doctrine\Common\Persistence\Mapping\ClassMetadata
+     * @var \Doctrine\Persistence\Mapping\ClassMetadata
      */
     protected $metadata;
 
@@ -71,7 +71,7 @@ class ProxyTest extends PHPUnit_Framework_TestCase
     {
         $this->proxy->setOptions(
             array(
-                'object_manager' => $this->getMock('Doctrine\Common\Persistence\ObjectManager'),
+                'object_manager' => $this->getMock('Doctrine\Persistence\ObjectManager'),
             )
         );
         $this->proxy->getValueOptions();
@@ -84,9 +84,9 @@ class ProxyTest extends PHPUnit_Framework_TestCase
     public function testExceptionThrownForMissingFindMethodName()
     {
         $objectClass = 'DoctrineModuleTest\Form\Element\TestAsset\FormObject';
-        $metadata    = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata    = $this->getMock('Doctrine\Persistence\Mapping\ClassMetadata');
 
-        $objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $objectManager = $this->getMock('Doctrine\Persistence\ObjectManager');
         $objectManager->expects($this->once())
             ->method('getClassMetadata')
             ->with($this->equalTo($objectClass))
@@ -106,11 +106,11 @@ class ProxyTest extends PHPUnit_Framework_TestCase
     public function testExceptionFindMethodNameNotExistentInRepository()
     {
         $objectClass = 'DoctrineModuleTest\Form\Element\TestAsset\FormObject';
-        $metadata    = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata    = $this->getMock('Doctrine\Persistence\Mapping\ClassMetadata');
 
-        $objectRepository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+        $objectRepository = $this->getMock('Doctrine\Persistence\ObjectRepository');
 
-        $objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $objectManager = $this->getMock('Doctrine\Persistence\ObjectManager');
         $objectManager->expects($this->once())
             ->method('getClassMetadata')
             ->with($this->equalTo($objectClass))
@@ -140,11 +140,11 @@ class ProxyTest extends PHPUnit_Framework_TestCase
     public function testExceptionThrownForMissingRequiredParameter()
     {
         $objectClass = 'DoctrineModuleTest\Form\Element\TestAsset\FormObject';
-        $metadata    = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata    = $this->getMock('Doctrine\Persistence\Mapping\ClassMetadata');
 
-        $objectRepository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+        $objectRepository = $this->getMock('Doctrine\Persistence\ObjectRepository');
 
-        $objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $objectManager = $this->getMock('Doctrine\Persistence\ObjectManager');
         $objectManager->expects($this->once())
             ->method('getClassMetadata')
             ->with($this->equalTo($objectClass))
@@ -574,33 +574,33 @@ class ProxyTest extends PHPUnit_Framework_TestCase
 
         $result = new ArrayCollection(array($objectOne, $objectTwo));
 
-        $metadata = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata = $this->getMock('Doctrine\Persistence\Mapping\ClassMetadata');
         $metadata
-            ->expects($this->any())
             ->method('getIdentifierValues')
-            ->will(
-                $this->returnCallback(
-                    function () use ($objectOne, $objectTwo) {
-                        $input = func_get_args();
-                        $input = array_shift($input);
+            ->willReturnCallback(
+                function () use ($objectOne, $objectTwo) {
+                    $input = func_get_args();
+                    $input = array_shift($input);
 
-                        if ($input == $objectOne) {
-                            return array('id' => 1);
-                        } elseif ($input == $objectTwo) {
-                            return array('id' => 2);
-                        }
-
-                        return array();
+                    if ($input == $objectOne) {
+                        return array('id' => 1);
+                    } elseif ($input == $objectTwo) {
+                        return array('id' => 2);
                     }
-                )
-            );
 
-        $objectRepository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+                    return array();
+                }
+            );
+        $metadata
+            ->method('getIdentifierFieldNames')
+            ->willReturn(['id']);
+
+        $objectRepository = $this->getMock('Doctrine\Persistence\ObjectRepository');
         $objectRepository->expects($this->any())
             ->method('findAll')
             ->will($this->returnValue($result));
 
-        $objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $objectManager = $this->getMock('Doctrine\Persistence\ObjectManager');
         $objectManager->expects($this->any())
             ->method('getClassMetadata')
             ->with($this->equalTo($objectClass))
@@ -655,35 +655,35 @@ class ProxyTest extends PHPUnit_Framework_TestCase
 
         $result = new ArrayCollection(array($objectOne, $objectTwo, $objectThree));
 
-        $metadata = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata = $this->getMock('Doctrine\Persistence\Mapping\ClassMetadata');
         $metadata
-            ->expects($this->any())
             ->method('getIdentifierValues')
-            ->will(
-                $this->returnCallback(
-                    function () use ($objectOne, $objectTwo, $objectThree) {
-                        $input = func_get_args();
-                        $input = array_shift($input);
+            ->willReturnCallback(
+                function () use ($objectOne, $objectTwo, $objectThree) {
+                    $input = func_get_args();
+                    $input = array_shift($input);
 
-                        if ($input == $objectOne) {
-                            return array('id' => 1);
-                        } elseif ($input == $objectTwo) {
-                            return array('id' => 2);
-                        } elseif ($input == $objectThree) {
-                            return array('id' => 3);
-                        }
-
-                        return array();
+                    if ($input == $objectOne) {
+                        return array('id' => 1);
+                    } elseif ($input == $objectTwo) {
+                        return array('id' => 2);
+                    } elseif ($input == $objectThree) {
+                        return array('id' => 3);
                     }
-                )
-            );
 
-        $objectRepository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+                    return array();
+                }
+            );
+        $metadata
+            ->method('getIdentifierFieldNames')
+            ->willReturn(['id']);
+
+        $objectRepository = $this->getMock('Doctrine\Persistence\ObjectRepository');
         $objectRepository->expects($this->any())
             ->method('findAll')
             ->will($this->returnValue($result));
 
-        $objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $objectManager = $this->getMock('Doctrine\Persistence\ObjectManager');
         $objectManager->expects($this->any())
             ->method('getClassMetadata')
             ->with($this->equalTo($objectClass))
@@ -728,33 +728,33 @@ class ProxyTest extends PHPUnit_Framework_TestCase
 
         $result = new ArrayCollection(array($objectOne, $objectTwo));
 
-        $metadata = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata = $this->getMock('Doctrine\Persistence\Mapping\ClassMetadata');
         $metadata
-            ->expects($this->any())
             ->method('getIdentifierValues')
-            ->will(
-                $this->returnCallback(
-                    function () use ($objectOne, $objectTwo) {
-                        $input = func_get_args();
-                        $input = array_shift($input);
+            ->willReturnCallback(
+                function () use ($objectOne, $objectTwo) {
+                    $input = func_get_args();
+                    $input = array_shift($input);
 
-                        if ($input == $objectOne) {
-                            return array('id' => 1);
-                        } elseif ($input == $objectTwo) {
-                            return array('id' => 2);
-                        }
-
-                        return array();
+                    if ($input == $objectOne) {
+                        return array('id' => 1);
+                    } elseif ($input == $objectTwo) {
+                        return array('id' => 2);
                     }
-                )
-            );
 
-        $objectRepository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+                    return array();
+                }
+            );
+        $metadata
+            ->method('getIdentifierFieldNames')
+            ->willReturn(['id']);
+
+        $objectRepository = $this->getMock('Doctrine\Persistence\ObjectRepository');
         $objectRepository->expects($this->any())
             ->method('findAll')
             ->will($this->returnValue($result));
 
-        $objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $objectManager = $this->getMock('Doctrine\Persistence\ObjectManager');
         $objectManager->expects($this->any())
             ->method('getClassMetadata')
             ->with($this->equalTo($objectClass))
@@ -799,33 +799,34 @@ class ProxyTest extends PHPUnit_Framework_TestCase
 
         $result = new ArrayCollection(array($objectOne, $objectTwo));
 
-        $metadata = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $metadata = $this->getMock('Doctrine\Persistence\Mapping\ClassMetadata');
         $metadata
             ->expects($this->exactly(2))
             ->method('getIdentifierValues')
-            ->will(
-                $this->returnCallback(
-                    function () use ($objectOne, $objectTwo) {
-                        $input = func_get_args();
-                        $input = array_shift($input);
-                        if ($input == $objectOne) {
-                            return array('id' => 1);
-                        } elseif ($input == $objectTwo) {
-                            return array('id' => 2);
-                        }
-
-                        return array();
+            ->willReturnCallback(
+                function () use ($objectOne, $objectTwo) {
+                    $input = func_get_args();
+                    $input = array_shift($input);
+                    if ($input == $objectOne) {
+                        return array('id' => 1);
+                    } elseif ($input == $objectTwo) {
+                        return array('id' => 2);
                     }
-                )
-            );
 
-        $objectRepository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+                    return array();
+                }
+            );
+        $metadata
+            ->method('getIdentifierFieldNames')
+            ->willReturn(['id']);
+
+        $objectRepository = $this->getMock('Doctrine\Persistence\ObjectRepository');
         $objectRepository
             ->expects($this->once())
             ->method('findBy')
             ->will($this->returnValue($result));
 
-        $objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $objectManager = $this->getMock('Doctrine\Persistence\ObjectManager');
         $objectManager
             ->expects($this->once())
             ->method('getClassMetadata')
@@ -861,15 +862,15 @@ class ProxyTest extends PHPUnit_Framework_TestCase
         }
 
         $objectClass      = 'DoctrineModuleTest\Form\Element\TestAsset\FormObject';
-        $metadata         = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
-        $objectRepository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+        $metadata         = $this->getMock('Doctrine\Persistence\Mapping\ClassMetadata');
+        $objectRepository = $this->getMock('Doctrine\Persistence\ObjectRepository');
 
         $objectRepository
             ->expects($this->once())
             ->method('findAll')
             ->will($this->returnValue($result));
 
-        $objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $objectManager = $this->getMock('Doctrine\Persistence\ObjectManager');
         $objectManager
             ->expects($this->once())
             ->method('getClassMetadata')

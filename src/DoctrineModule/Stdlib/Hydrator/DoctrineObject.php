@@ -20,9 +20,9 @@
 namespace DoctrineModule\Stdlib\Hydrator;
 
 use DateTime;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Inflector\Inflector;
 use InvalidArgumentException;
 use RuntimeException;
 use Traversable;

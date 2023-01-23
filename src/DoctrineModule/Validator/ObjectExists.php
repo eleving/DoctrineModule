@@ -21,7 +21,7 @@ namespace DoctrineModule\Validator;
 
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Zend\Stdlib\ArrayUtils;
 
 /**
@@ -64,7 +64,7 @@ class ObjectExists extends AbstractValidator
      * Constructor
      *
      * @param array $options required keys are `object_repository`, which must be an instance of
-     *                       Doctrine\Common\Persistence\ObjectRepository, and `fields`, with either
+     *                       Doctrine\Persistence\ObjectRepository, and `fields`, with either
      *                       a string or an array of strings representing the fields to be matched by the validator.
      * @throws \Zend\Validator\Exception\InvalidArgumentException
      */
@@ -84,7 +84,7 @@ class ObjectExists extends AbstractValidator
             throw new Exception\InvalidArgumentException(
                 sprintf(
                     'Option "object_repository" is required and must be an instance of'
-                    . ' Doctrine\Common\Persistence\ObjectRepository, %s given',
+                    . ' Doctrine\Persistence\ObjectRepository, %s given',
                     $provided
                 )
             );

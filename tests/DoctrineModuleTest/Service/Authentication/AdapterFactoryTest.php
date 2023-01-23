@@ -30,7 +30,7 @@ class AdapterFactoryTest extends BaseTestCase
 
         $name           = 'testFactory';
         $factory        = new AdapterFactory($name);
-        $objectManager  = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $objectManager  = $this->getMock('Doctrine\Persistence\ObjectManager');
         $serviceManager = new ServiceManager();
         $serviceManager->setService(
             'Configuration',

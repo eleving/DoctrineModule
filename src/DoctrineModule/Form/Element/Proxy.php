@@ -20,7 +20,7 @@
 namespace DoctrineModule\Form\Element;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use InvalidArgumentException;
 use ReflectionMethod;

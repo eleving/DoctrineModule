@@ -25,12 +25,12 @@ class DoctrineObjectTest extends BaseTestCase
     protected $hydratorByReference;
 
     /**
-     * @var \Doctrine\Common\Persistence\Mapping\ClassMetadata|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Doctrine\Persistence\Mapping\ClassMetadata|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $metadata;
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Doctrine\Persistence\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManager;
 
@@ -41,8 +41,8 @@ class DoctrineObjectTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->metadata      = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
-        $this->objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $this->metadata      = $this->getMock('Doctrine\Persistence\Mapping\ClassMetadata');
+        $this->objectManager = $this->getMock('Doctrine\Persistence\ObjectManager');
 
         $this->objectManager->expects($this->any())
                             ->method('getClassMetadata')
